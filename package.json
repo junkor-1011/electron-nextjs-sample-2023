@@ -18,10 +18,14 @@
     "electron-builder": "^23.6.0"
   },
   "build": {
+    "productName": "example-app",
     "asar": true,
     "files": [
       "main",
       "renderer/dist"
-    ]
+    ],
+    "linux": {
+      "executableName": "example-app"
+    }
   }
 }
