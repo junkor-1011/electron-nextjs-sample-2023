@@ -11,7 +11,8 @@
   "main": "main/index.js",
   "scripts": {
     "dev:renderer": "pnpm --filter renderer dev",
-    "dev": "pnpm build-electron && electron . --inspect",
+    "dev:electron": "pnpm build-electron && electron . --inspect",
+    "dev": "tsx scripts/launch-dev.ts",
     "build-renderer": "pnpm --filter renderer build",
     "build-electron": "pnpm --filter electron build",
     "build": "pnpm -r build",
@@ -20,7 +21,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "electron-builder": "^23.6.0"
+    "@types/node": "^20.2.5",
+    "electron-builder": "^23.6.0",
+    "tsx": "^3.12.7"
   },
   "build": {
     "productName": "example-app",
