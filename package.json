@@ -1,0 +1,36 @@
+{
+  "packageManager": "pnpm@8.6.1",
+  "engines": {
+    "strict": true,
+    "node": "18.x"
+  },
+  "private": true,
+  "name": "electron-vite-react-sample",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main/index.js",
+  "scripts": {
+    "dev:renderer": "pnpm --filter renderer dev",
+    "dev": "pnpm build-electron && electron . --inspect",
+    "build-renderer": "pnpm --filter renderer build",
+    "build-electron": "pnpm --filter electron build",
+    "build": "pnpm -r build",
+    "pack-app": "pnpm build && electron-builder --dir",
+    "dist": "pnpm build && electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "electron-builder": "^23.6.0"
+  },
+  "build": {
+    "productName": "example-app",
+    "asar": true,
+    "files": [
+      "main",
+      "renderer/dist"
+    ],
+    "linux": {
+      "executableName": "example-app"
+    }
+  }
+}
