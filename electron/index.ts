@@ -37,3 +37,7 @@ ipcMain.on('message', (event: IpcMainEvent, message: any) => {
     event.sender.send('message', 'hi from electron');
   }, 500);
 });
+
+ipcMain.handle('greet', (): string => {
+  return 'greet';
+})
