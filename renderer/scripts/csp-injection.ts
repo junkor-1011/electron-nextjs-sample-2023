@@ -1,11 +1,7 @@
 import path from 'node:path';
-// import url from 'node:url';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { globSync } from 'glob';
 import { JSDOM } from 'jsdom';
-
-// const __filename = url.fileURLToPath(import.meta.url)
-// const __dirname = path.dirname(__filename)
 
 const CSP_CONTENT = "default-src 'self' 'unsafe-inline';";
 
@@ -37,20 +33,12 @@ function injectCsp(target: string): void {
 }
 
 function main() {
+  console.warn('DEPRECATED.');
+
   const targets = findHtml()
   for (const target of targets) {
     injectCsp(target);
   }
-  // const targetPath = path.join(__dirname, '../out/index.html')
-  // const rawHtml = readFileSync(targetPath, 'utf-8')
-  // const dom = new JSDOM(rawHtml)
-  // 
-  // // rewrite csp
-  // const csp = dom.window.document.getElementById('_csp')
-  // csp?.setAttribute('content', CSP_CONTENT)
-  // 
-  // const newHtml = dom.serialize()
-  // writeFileSync(targetPath, newHtml)
 }
 
 main()

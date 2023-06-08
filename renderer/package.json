@@ -5,7 +5,7 @@
   "scripts": {
     "csp-inject": "tsx scripts/csp-injection.ts",
     "dev": "next dev",
-    "build": "next build && pnpm csp-inject",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
