@@ -1,7 +1,6 @@
 {
-  "packageManager": "pnpm@8.6.1",
+  "packageManager": "pnpm@8.6.2",
   "engines": {
-    "strict": true,
     "node": "18.x"
   },
   "private": true,
