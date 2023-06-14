@@ -1,3 +1,4 @@
-package:
+packages:
   - 'electron'
   - 'renderer'
+  - '!**/dist/**'
