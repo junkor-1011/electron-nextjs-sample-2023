@@ -6,8 +6,6 @@
     ],
     "module": "commonjs",
     "moduleResolution": "bundler",
-    "baseUrl": "./",
-    "paths": {},
     "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
