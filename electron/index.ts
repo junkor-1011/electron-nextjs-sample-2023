@@ -2,13 +2,7 @@
 import { join } from 'node:path';
 
 // Packages
-import {
-  BrowserWindow,
-  app,
-  ipcMain,
-  session,
-  type IpcMainEvent,
-} from 'electron';
+import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
 import serve from 'electron-serve';
 import isDev from 'electron-is-dev';
 
@@ -53,6 +47,24 @@ app.on('ready', async () => {
 
 // Quit the app once all windows are closed
 app.on('window-all-closed', app.quit);
+
+// Open OS browser for external url
+app.on('web-contents-created', (_event, contents) => {
+  contents.setWindowOpenHandler(({ url }) => {
+    // allow only specific urls
+    if (url === 'https://vitejs.dev/' || url === 'https://react.dev/') {
+      setImmediate(() => {
+        shell.openExternal(url);
+      });
+    }
+    return { action: 'deny' };
+  });
+
+  // disallow unnecessary navigation
+  contents.on('will-navigate', (event, _navigationUrl) => {
+    event.preventDefault();
+  });
+});
 
 // example of send from renderer
 ipcMain.on(exampleChannel1, sendExampleHandler);
