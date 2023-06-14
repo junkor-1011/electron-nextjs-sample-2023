@@ -1,6 +1,11 @@
+import type {
+  SendExampleHandler,
+  InvokeExampleHandler,
+} from '@main/lib/handler';
+
 export interface IElectronAPI {
-  hello: () => void;
-  greet: () => string;
+  sendExample: SendExampleHandler;
+  invokeExample: InvokeExampleHandler;
 }
 
 declare global {

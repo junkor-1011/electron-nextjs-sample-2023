@@ -1,12 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import { exampleChannel1, exampleChannel2 } from './lib/channels';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  hello: () => {
-    ipcRenderer.send('message', 'hi from vite');
+  sendExample: (...args: readonly unknown[]): void => {
+    ipcRenderer.send(exampleChannel1, ...args);
   },
 
-  greet: async (...args: readonly unknown[]): Promise<unknown> => {
-    const res = await ipcRenderer.invoke('greet', ...args);
+  invokeExample: async (...args: readonly unknown[]): Promise<unknown> => {
+    const res = await ipcRenderer.invoke(exampleChannel2, ...args);
     return res;
   },
 });

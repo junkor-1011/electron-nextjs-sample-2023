@@ -14,12 +14,21 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    // for path alias
+    "baseUrl": "./",
+    "paths": {
+      "@main/*": ["../electron/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "renderer.d.ts"],
+  "include": [
+    "src",
+    "renderer.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

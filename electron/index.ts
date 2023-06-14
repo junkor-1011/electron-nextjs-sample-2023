@@ -2,9 +2,19 @@
 import { join } from 'node:path';
 
 // Packages
-import { BrowserWindow, app, ipcMain, session, type IpcMainEvent } from 'electron';
+import {
+  BrowserWindow,
+  app,
+  ipcMain,
+  session,
+  type IpcMainEvent,
+} from 'electron';
 import serve from 'electron-serve';
 import isDev from 'electron-is-dev';
+
+// Own Libraries
+import { exampleChannel1, exampleChannel2 } from './lib/channels';
+import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
 
 const loadURL = serve({
   directory: 'renderer/dist',
@@ -21,7 +31,7 @@ app.on('ready', async () => {
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': cspContents,
-      }
+      },
     });
   });
 
@@ -35,7 +45,8 @@ app.on('ready', async () => {
 
   if (isDev) {
     await mainWindow.loadURL('http://localhost:5173');
-  } else { // production
+  } else {
+    // production
     await loadURL(mainWindow);
   }
 });
@@ -43,14 +54,8 @@ app.on('ready', async () => {
 // Quit the app once all windows are closed
 app.on('window-all-closed', app.quit);
 
-// listen the channel `message` and resend the received message to the renderer process
-ipcMain.on('message', (event: IpcMainEvent, message: any) => {
-  console.log(message);
-  setTimeout(() => {
-    event.sender.send('message', 'hi from electron');
-  }, 500);
-});
+// example of send from renderer
+ipcMain.on(exampleChannel1, sendExampleHandler);
 
-ipcMain.handle('greet', (): string => {
-  return 'greet';
-})
+// example of invoke from renderer
+ipcMain.handle(exampleChannel2, invokeExampleHandler);

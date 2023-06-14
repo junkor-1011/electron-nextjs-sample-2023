@@ -10,10 +10,10 @@
   "main": "main/index.js",
   "scripts": {
     "dev:renderer": "pnpm --filter renderer dev",
-    "dev:electron": "pnpm build-electron && electron . --inspect",
+    "dev:electron": "pnpm build:electron && electron . --inspect",
     "dev": "run-p dev:*",
-    "build-renderer": "pnpm --filter renderer build",
-    "build-electron": "pnpm --filter electron build",
+    "build:renderer": "pnpm --filter renderer build",
+    "build:electron": "pnpm --filter electron build",
     "build": "pnpm -r build",
     "pack-app": "pnpm build && electron-builder --dir",
     "pack-app:win": "docker compose run --rm builder bash -c \"pnpm build && pnpm electron-builder --win --x64 --dir\"",
