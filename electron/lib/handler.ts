@@ -34,7 +34,7 @@ export const invokeExampleHandler: InvokeExampleHandlerWithEvent = async (
 ) => {
   console.log(`message from renderer: ${message}`);
 
-  await new Promise((resolve) => setTimeout(resolve, 500)); // sleep 0.5 sec
+  await new Promise((resolve) => setTimeout(resolve, 100)); // sleep 0.1 sec
 
   const now = new Date();
   const res = `message from main: ${now.toISOString()}`;
