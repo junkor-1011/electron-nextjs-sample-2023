@@ -9,9 +9,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
-    "electron": "^25.1.0",
+    "electron": "^25.1.1",
     "electron-serve": "^1.1.0",
-    "esbuild": "^0.18.2",
+    "esbuild": "^0.18.3",
     "tsx": "^3.12.7",
     "typescript": "~5.0.4"
   }
