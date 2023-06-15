@@ -3,17 +3,16 @@ import { join } from 'node:path';
 
 // Packages
 import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
-import serve from 'electron-serve';
 
 // Own Libraries
 import { exampleChannel1, exampleChannel2 } from './lib/channels';
 import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
+import { registerProtocol, protocolInfo } from './lib/custom-protocol';
 
 /** url of nextjs development server */
 const devServerUrl = 'http://localhost:3000';
 
-/** loading 'app://-/' for Single Page App. */
-const loadURL = serve({
+registerProtocol({
   directory: 'renderer/out',
 });
 
@@ -42,7 +41,8 @@ app.on('ready', async () => {
 
   if (app.isPackaged) {
     // production
-    await loadURL(mainWindow);
+    // await loadURL(mainWindow);
+    await mainWindow.loadURL(protocolInfo.origin);
   } else {
     // development
     await mainWindow.loadURL(devServerUrl);
