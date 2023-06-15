@@ -9,12 +9,12 @@ import serve from 'electron-serve';
 import { exampleChannel1, exampleChannel2 } from './lib/channels';
 import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
 
-/** url of vite development server */
-const devServerUrl = 'http://localhost:5173';
+/** url of nextjs development server */
+const devServerUrl = 'http://localhost:3000';
 
 /** loading 'app://-/' for Single Page App. */
 const loadURL = serve({
-  directory: 'renderer/dist',
+  directory: 'renderer/out',
 });
 
 // Prepare the renderer once the app is ready
@@ -22,8 +22,8 @@ app.on('ready', async () => {
   // session
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     const cspContents = app.isPackaged
-      ? ["default-src 'self'"]
-      : ["default-src 'self' 'unsafe-inline'"];
+      ? ["default-src 'self' 'unsafe-inline'"]
+      : ["default-src 'self' 'unsafe-inline' 'unsafe-eval'"];
     callback({
       responseHeaders: {
         ...details.responseHeaders,
@@ -55,8 +55,14 @@ app.on('window-all-closed', app.quit);
 // Open OS browser for external url
 app.on('web-contents-created', (_event, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
-    // allow only specific urls
-    if (url === 'https://vitejs.dev/' || url === 'https://react.dev/') {
+    // allow only specific origin
+    const allowedOrigins = [
+      'https://nextjs.org',
+      'https://vercel.com',
+    ];
+
+    const { origin } = new URL(url);
+    if (allowedOrigins.includes(origin)) {
       setImmediate(() => {
         shell.openExternal(url);
       });

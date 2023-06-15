@@ -4,7 +4,7 @@
     "node": "18.x"
   },
   "private": true,
-  "name": "electron-vite-react-sample",
+  "name": "electron-nextjs-sample",
   "version": "0.0.1",
   "description": "",
   "main": "main/index.js",
@@ -30,7 +30,7 @@
     "asar": true,
     "files": [
       "main",
-      "renderer/dist"
+      "renderer/out"
     ],
     "linux": {
       "executableName": "example-app"
