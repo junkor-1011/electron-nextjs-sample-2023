@@ -71,8 +71,20 @@ app.on('web-contents-created', (_event, contents) => {
   });
 
   // disallow unnecessary navigation
-  contents.on('will-navigate', (event, _navigationUrl) => {
-    event.preventDefault();
+  contents.on('will-navigate', (event, navigationUrl) => {
+    const parsedUrl = new URL(navigationUrl);
+    if (app.isPackaged) {
+      const { protocol, hostname } = parsedUrl;
+      if (protocol !== protocolInfo.protocol || hostname !== protocolInfo.hostname) {
+        event.preventDefault();
+      }
+    } else {
+      const { origin } = parsedUrl;
+      const devServerOrigin = new URL(devServerUrl).origin
+      if (origin !== devServerOrigin) {
+        event.preventDefault();
+      }
+    }
   });
 });
 
