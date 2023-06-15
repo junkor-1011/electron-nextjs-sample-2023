@@ -56,10 +56,7 @@ app.on('window-all-closed', app.quit);
 app.on('web-contents-created', (_event, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
     // allow only specific origin
-    const allowedOrigins = [
-      'https://nextjs.org',
-      'https://vercel.com',
-    ];
+    const allowedOrigins = ['https://nextjs.org', 'https://vercel.com'];
 
     const { origin } = new URL(url);
     if (allowedOrigins.includes(origin)) {
@@ -75,12 +72,15 @@ app.on('web-contents-created', (_event, contents) => {
     const parsedUrl = new URL(navigationUrl);
     if (app.isPackaged) {
       const { protocol, hostname } = parsedUrl;
-      if (protocol !== protocolInfo.protocol || hostname !== protocolInfo.hostname) {
+      if (
+        protocol !== protocolInfo.protocol ||
+        hostname !== protocolInfo.hostname
+      ) {
         event.preventDefault();
       }
     } else {
       const { origin } = parsedUrl;
-      const devServerOrigin = new URL(devServerUrl).origin
+      const devServerOrigin = new URL(devServerUrl).origin;
       if (origin !== devServerOrigin) {
         event.preventDefault();
       }

@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import Image from 'next/image';
+import styles from './page.module.css';
 
 export default function Home() {
   return (
@@ -90,15 +90,10 @@ export default function Home() {
           </p>
         </a>
 
-        <a
-          href="/next"
-          className={styles.card}
-        >
-          <h2>
-            next page
-          </h2>
+        <a href="/next" className={styles.card}>
+          <h2>next page</h2>
         </a>
       </div>
     </main>
-  )
+  );
 }
