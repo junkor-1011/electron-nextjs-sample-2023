@@ -23,9 +23,6 @@ importers:
       electron:
         specifier: ^25.1.1
         version: 25.1.1
-      electron-serve:
-        specifier: ^1.1.0
-        version: 1.1.0
       esbuild:
         specifier: ^0.18.3
         version: 0.18.3
@@ -1842,10 +1839,6 @@ packages:
       mime: 2.6.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /electron-serve@1.1.0:
-    resolution: {integrity: sha512-tQJBCbXKoKCfkBC143QCqnEtT1s8dNE2V+b/82NF6lxnGO/2Q3a3GSLHtKl3iEDQgdzTf9pH7p418xq2rXbz1Q==}
     dev: true
 
   /electron@25.1.1:
