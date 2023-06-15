@@ -4,12 +4,15 @@ import { join } from 'node:path';
 // Packages
 import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
 import serve from 'electron-serve';
-import isDev from 'electron-is-dev';
 
 // Own Libraries
 import { exampleChannel1, exampleChannel2 } from './lib/channels';
 import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
 
+/** url of vite development server */
+const devServerUrl = 'http://localhost:5173';
+
+/** loading 'app://-/' for Single Page App. */
 const loadURL = serve({
   directory: 'renderer/dist',
 });
@@ -18,9 +21,9 @@ const loadURL = serve({
 app.on('ready', async () => {
   // session
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    const cspContents = isDev
-      ? ["default-src 'self' 'unsafe-inline'"]
-      : ["default-src 'self'"];
+    const cspContents = app.isPackaged
+      ? ["default-src 'self'"]
+      : ["default-src 'self' 'unsafe-inline'"];
     callback({
       responseHeaders: {
         ...details.responseHeaders,
@@ -37,11 +40,12 @@ app.on('ready', async () => {
     },
   });
 
-  if (isDev) {
-    await mainWindow.loadURL('http://localhost:5173');
-  } else {
+  if (app.isPackaged) {
     // production
     await loadURL(mainWindow);
+  } else {
+    // development
+    await mainWindow.loadURL(devServerUrl);
   }
 });
 
