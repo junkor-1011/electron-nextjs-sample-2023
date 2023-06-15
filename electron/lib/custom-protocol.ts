@@ -1,7 +1,8 @@
 import { stat as _stat } from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
-import electron from 'electron';
+import { app, net, protocol, session } from 'electron';
 
 const stat = promisify(_stat);
 
@@ -17,27 +18,31 @@ export const protocolInfo = {
   origin: 'mpa://-',
 } as const;
 
+const conv2FilePath = (path: string): string => {
+  return pathToFileURL(path).toString();
+};
+
 const getPath = async (path_: string): Promise<string | null> => {
   try {
     const result = await stat(path_);
 
     if (result.isFile()) {
-      return path_
+      return path_;
     }
 
     if (result.isDirectory()) {
-      return getPath(path.join(path_, 'index.html'))
+      return getPath(path.join(path_, 'index.html'));
     }
 
-    return null
+    return null;
   } catch (_) {
     if (path.extname(path_) === '.html') {
-      return null
+      return null;
     }
 
     return getPath(`${path_}.html`);
   }
-}
+};
 
 export interface RegisterProtocolOptions {
   directory: string;
@@ -52,28 +57,7 @@ export const registerProtocol = ({
   /** path of entry point index.html at renderer */
   const baseIndexPath = path.join(baseDir, 'index.html');
 
-  /** handler of registerFileProtocol */
-  const handler: (
-    request: Electron.ProtocolRequest,
-    callback: (response: Electron.ProtocolResponse) => void
-  ) => Promise<void> = async (request, callback) => {
-    const requestPathname = decodeURIComponent(new URL(request.url).pathname);
-    const convertedPathname = path.join(baseDir, requestPathname);
-    const resolvedPathname = await getPath(convertedPathname);
-    if (resolvedPathname == null) {
-      callback({ error: FILE_NOT_FOUND });
-      return;
-    }
-    const fileExtension = path.extname(resolvedPathname);
-
-    if (fileExtension === '.asar') {
-      callback({ path: baseIndexPath })
-    } else {
-      callback({ path: resolvedPathname })
-    }
-  };
-
-  electron.protocol.registerSchemesAsPrivileged([
+  protocol.registerSchemesAsPrivileged([
     {
       scheme: protocolInfo.scheme,
       privileges: {
@@ -83,12 +67,26 @@ export const registerProtocol = ({
         supportFetchAPI: true,
         corsEnabled: true,
       },
-    }
-  ])
+    },
+  ]);
 
-  electron.app.on('ready', () => {
-    const session = electron.session.defaultSession;
+  app.on('ready', () => {
+    const session_ = session.defaultSession;
 
-    session.protocol.registerFileProtocol(protocolInfo.scheme, handler)
-  })
+    session_.protocol.handle(protocolInfo.scheme, async (request) => {
+      const requestPathname = decodeURIComponent(new URL(request.url).pathname);
+      const convertedPathname = path.join(baseDir, requestPathname);
+      const resolvedPathname = await getPath(convertedPathname);
+      if (resolvedPathname == null) {
+        return { error: FILE_NOT_FOUND };
+      }
+      const fileExtension = path.extname(resolvedPathname);
+
+      if (fileExtension === '.asar') {
+        return net.fetch(conv2FilePath(baseIndexPath));
+      } else {
+        return net.fetch(conv2FilePath(resolvedPathname));
+      }
+    });
+  });
 };
