@@ -29,12 +29,14 @@ const getPath = async (path_: string): Promise<string | null> => {
       return getPath(path.join(path_, 'index.html'))
     }
 
+    return null
+  } catch (_) {
     if (path.extname(path_) === '.html') {
       return null
     }
 
     return getPath(`${path_}.html`);
-  } catch (_) { return null }
+  }
 }
 
 export interface RegisterProtocolOptions {
