@@ -2,11 +2,17 @@
 import { join } from 'node:path';
 
 // Packages
-import { BrowserWindow, app, ipcMain, session, type IpcMainEvent } from 'electron';
-import serve from 'electron-serve';
-import isDev from 'electron-is-dev';
+import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
 
-const loadURL = serve({
+// Own Libraries
+import { exampleChannel1, exampleChannel2 } from './lib/channels';
+import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
+import { registerProtocol, protocolInfo } from './lib/custom-protocol';
+
+/** url of nextjs development server */
+const devServerUrl = 'http://localhost:3000';
+
+registerProtocol({
   directory: 'renderer/out',
 });
 
@@ -14,16 +20,16 @@ const loadURL = serve({
 app.on('ready', async () => {
   // session
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    const cspContents = isDev
-      ? ["default-src 'self' 'unsafe-inline' 'unsafe-eval'"]
-      : ["default-src 'self' 'unsafe-inline'"];
+    const cspContents = app.isPackaged
+      ? ["default-src 'self' 'unsafe-inline'"]
+      : ["default-src 'self' 'unsafe-inline' 'unsafe-eval'"];
     callback({
       responseHeaders: {
         ...details.responseHeaders,
         'Content-Security-Policy': cspContents,
-      }
-    })
-  })
+      },
+    });
+  });
 
   const mainWindow = new BrowserWindow({
     width: 1200,
@@ -33,24 +39,57 @@ app.on('ready', async () => {
     },
   });
 
-  if (isDev) {
-    await mainWindow.loadURL('http://localhost:3000');
-  } else { // production
-    await loadURL(mainWindow);
+  if (app.isPackaged) {
+    // production
+    // await loadURL(mainWindow);
+    await mainWindow.loadURL(protocolInfo.origin);
+  } else {
+    // development
+    await mainWindow.loadURL(devServerUrl);
   }
 });
 
 // Quit the app once all windows are closed
 app.on('window-all-closed', app.quit);
 
-// listen the channel `message` and resend the received message to the renderer process
-ipcMain.on('message', (event: IpcMainEvent, message: any) => {
-  console.log(message);
-  setTimeout(() => {
-    event.sender.send('message', 'hi from electron');
-  }, 500);
+// Open OS browser for external url
+app.on('web-contents-created', (_event, contents) => {
+  contents.setWindowOpenHandler(({ url }) => {
+    // allow only specific origin
+    const allowedOrigins = ['https://nextjs.org', 'https://vercel.com'];
+
+    const { origin } = new URL(url);
+    if (allowedOrigins.includes(origin)) {
+      setImmediate(() => {
+        shell.openExternal(url);
+      });
+    }
+    return { action: 'deny' };
+  });
+
+  // disallow unnecessary navigation
+  contents.on('will-navigate', (event, navigationUrl) => {
+    const parsedUrl = new URL(navigationUrl);
+    if (app.isPackaged) {
+      const { protocol, hostname } = parsedUrl;
+      if (
+        protocol !== protocolInfo.protocol ||
+        hostname !== protocolInfo.hostname
+      ) {
+        event.preventDefault();
+      }
+    } else {
+      const { origin } = parsedUrl;
+      const devServerOrigin = new URL(devServerUrl).origin;
+      if (origin !== devServerOrigin) {
+        event.preventDefault();
+      }
+    }
+  });
 });
 
-ipcMain.handle('greet', (): string => {
-  return 'greet';
-})
+// example of send from renderer
+ipcMain.on(exampleChannel1, sendExampleHandler);
+
+// example of invoke from renderer
+ipcMain.handle(exampleChannel2, invokeExampleHandler);
