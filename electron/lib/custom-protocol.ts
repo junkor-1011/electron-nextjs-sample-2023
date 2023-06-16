@@ -60,7 +60,7 @@ export const registerProtocol = ({
         secure: true,
         allowServiceWorkers: true,
         supportFetchAPI: true,
-        corsEnabled: true,
+        corsEnabled: false,
       },
     },
   ]);
