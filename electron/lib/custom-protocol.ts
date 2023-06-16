@@ -1,15 +1,8 @@
-import { stat as _stat } from 'node:fs';
+import { statSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
 import { app, net, protocol, session } from 'electron';
-
-const stat = promisify(_stat);
-
-/**
- * @see https://cs.chromium.org/chromium/src/net/base/net_error_list.h
- */
-const FILE_NOT_FOUND = -6;
 
 export const protocolInfo = {
   scheme: 'mpa',
@@ -22,9 +15,9 @@ const conv2FilePath = (path: string): string => {
   return pathToFileURL(path).toString();
 };
 
-const getPath = async (path_: string): Promise<string | null> => {
+const getPath = (path_: string): string => {
   try {
-    const result = await stat(path_);
+    const result = statSync(path_);
 
     if (result.isFile()) {
       return path_;
@@ -34,13 +27,15 @@ const getPath = async (path_: string): Promise<string | null> => {
       return getPath(path.join(path_, 'index.html'));
     }
 
-    return null;
+    throw new Error();
   } catch (_) {
-    if (path.extname(path_) === '.html') {
-      return null;
+    if (path.extname(path_) === '') {
+      // if path do not have extention, add '.html'
+      return getPath(`${path_}.html`);
     }
 
-    return getPath(`${path_}.html`);
+    // net.fetch(path_) will throw 404
+    return path_;
   }
 };
 
@@ -52,7 +47,7 @@ export const registerProtocol = ({
   directory,
 }: RegisterProtocolOptions): void => {
   /** entry point dir of renderer */
-  const baseDir = path.resolve(directory);
+  const baseDir = path.resolve(app.getAppPath(), directory);
 
   /** path of entry point index.html at renderer */
   const baseIndexPath = path.join(baseDir, 'index.html');
@@ -73,13 +68,10 @@ export const registerProtocol = ({
   app.on('ready', () => {
     const session_ = session.defaultSession;
 
-    session_.protocol.handle(protocolInfo.scheme, async (request) => {
+    session_.protocol.handle(protocolInfo.scheme, (request) => {
       const requestPathname = decodeURIComponent(new URL(request.url).pathname);
       const convertedPathname = path.join(baseDir, requestPathname);
-      const resolvedPathname = await getPath(convertedPathname);
-      if (resolvedPathname == null) {
-        return { error: FILE_NOT_FOUND };
-      }
+      const resolvedPathname = getPath(convertedPathname);
       const fileExtension = path.extname(resolvedPathname);
 
       if (fileExtension === '.asar') {
