@@ -1,7 +1,6 @@
 import { statSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { promisify } from 'node:util';
 import { app, net, protocol, session } from 'electron';
 
 export const protocolInfo = {
