@@ -7,7 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 
   invokeExample: async (...args: readonly unknown[]): Promise<unknown> => {
-    const res = await ipcRenderer.invoke(exampleChannel2, ...args);
+    const res: unknown = await ipcRenderer.invoke(exampleChannel2, ...args);
     return res;
   },
 });
