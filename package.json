@@ -17,6 +17,8 @@
     "build": "pnpm -r build",
     "pack-app": "pnpm build && electron-builder --dir",
     "pack-app:win": "docker compose run --rm builder bash -c \"pnpm build && pnpm electron-builder --win --x64 --dir\"",
+    "pack-app:mac": "pnpm build && pnpm electron-builder --mac --arm64 --dir",
+    "pack-app:mac-x64": "pnpm build && pnpm electron-builder --mac --x64 --dir",
     "dist": "pnpm build && electron-builder",
     "dist:win": "docker compose run --rm builder bash -c \"pnpm build && pnpm electron-builder --win --x64\"",
     "test": "echo \"Error: no test specified\" && exit 1"
