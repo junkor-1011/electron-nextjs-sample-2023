@@ -5,8 +5,13 @@ import { join } from 'node:path';
 import { BrowserWindow, app, ipcMain, session, shell } from 'electron';
 
 // Own Libraries
-import { exampleChannel1, exampleChannel2 } from './lib/channels';
+import {
+  exampleChannel1,
+  exampleChannel2,
+  exampleChannel3,
+} from './lib/channels';
 import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
+import { ListenerExampleEventArgs } from './lib/events';
 import { registerProtocol, protocolInfo } from './lib/custom-protocol';
 
 /** url of nextjs development server */
@@ -47,6 +52,17 @@ app.on('ready', async () => {
     // development
     await mainWindow.loadURL(devServerUrl);
   }
+
+  const contents = mainWindow.webContents;
+
+  // send to renderer example
+  setInterval(() => {
+    const now = new Date();
+    const args: ListenerExampleEventArgs = [
+      `message from main: it is ${now.toISOString()}`,
+    ];
+    contents.send(exampleChannel3, ...args);
+  }, 10 * 1000);
 });
 
 // Quit the app once all windows are closed
