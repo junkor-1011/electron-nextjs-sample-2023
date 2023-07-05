@@ -4,6 +4,7 @@
     "node": "18.x"
   },
   "private": true,
+  "license": "MIT",
   "name": "electron-nextjs-sample",
   "version": "0.0.1",
   "description": "",
