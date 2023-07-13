@@ -4,7 +4,7 @@ export type AddListenerExample = (
   listener: (
     event: Electron.IpcRendererEvent,
     ...args: ListenerExampleEventArgs
-  ) => void
+  ) => void,
 ) => void;
 
 export type RemoveListenerExample = () => void;

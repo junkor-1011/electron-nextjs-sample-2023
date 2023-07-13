@@ -2,7 +2,7 @@ import { type IpcMainEvent, type IpcMainInvokeEvent } from 'electron';
 
 type HandlerWithEvent<
   F extends (...args: never[]) => unknown,
-  Event extends IpcMainEvent | IpcMainInvokeEvent
+  Event extends IpcMainEvent | IpcMainInvokeEvent,
 > = (event: Event, ...args: Parameters<F>) => ReturnType<F>;
 
 export type SendExampleHandler = (message: string) => void;
@@ -14,7 +14,7 @@ type SendExampleHandlerWithEvent = HandlerWithEvent<
 
 export const sendExampleHandler: SendExampleHandlerWithEvent = (
   _event,
-  message
+  message,
 ) => {
   console.log(message);
 };
@@ -30,7 +30,7 @@ type InvokeExampleHandlerWithEvent = HandlerWithEvent<
 
 export const invokeExampleHandler: InvokeExampleHandlerWithEvent = async (
   _event,
-  { message }
+  { message },
 ) => {
   console.log(`message from renderer: ${message}`);
 

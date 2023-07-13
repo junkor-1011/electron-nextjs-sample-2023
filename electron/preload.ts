@@ -19,7 +19,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     listener: (
       event: Electron.IpcRendererEvent,
       ...args: readonly unknown[]
-    ) => void
+    ) => void,
   ): void => {
     ipcRenderer.on(exampleChannel3, listener);
   },
