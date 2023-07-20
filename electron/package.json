@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.2",
-    "esbuild": "^0.18.13",
+    "esbuild": "^0.18.15",
     "tsx": "^3.12.7",
     "typescript": "~5.1.6"
   },
