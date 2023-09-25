@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@types/node": "^20.6.3",
+    "@types/node": "^20.6.5",
     "esbuild": "^0.19.3",
     "tsx": "^3.12.10",
     "typescript": "~5.2.2"
