@@ -2,7 +2,7 @@ FROM docker.io/electronuserland/builder:18-wine
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG PNPM_VERSION="8.6.5"
+ARG PNPM_VERSION="8.11.0"
 ARG YARN_VERSION="1.22.19"
 ARG NPM_VERSION="9.6.7"
 
