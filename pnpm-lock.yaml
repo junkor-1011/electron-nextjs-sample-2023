@@ -22,8 +22,8 @@ importers:
         version: 28.1.0
     devDependencies:
       '@types/node':
-        specifier: ^20.10.5
-        version: 20.10.5
+        specifier: ^20.10.6
+        version: 20.10.6
       esbuild:
         specifier: ^0.19.10
         version: 0.19.10
@@ -37,8 +37,8 @@ importers:
   renderer:
     dependencies:
       '@types/node':
-        specifier: ^20.10.5
-        version: 20.10.5
+        specifier: ^20.10.6
+        version: 20.10.6
       '@types/react':
         specifier: 18.2.45
         version: 18.2.45
@@ -604,7 +604,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
       '@types/responselike': 1.0.3
     dev: false
 
@@ -617,7 +617,7 @@ packages:
   /@types/fs-extra@9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
     dev: true
 
   /@types/http-cache-semantics@4.0.4:
@@ -631,7 +631,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
     dev: false
 
   /@types/ms@0.7.34:
@@ -644,8 +644,8 @@ packages:
       undici-types: 5.26.5
     dev: false
 
-  /@types/node@20.10.5:
-    resolution: {integrity: sha512-nNPsNE65wjMxEKI93yOP+NPGGBJz/PoN3kZsVLee0XMiJolxSekEVD8wRwBUBqkwc7UWop0edW50yrCQW4CyRw==}
+  /@types/node@20.10.6:
+    resolution: {integrity: sha512-Vac8H+NlRNNlAmDfGUP7b5h/KA+AtWIzuXy0E6OyP8f1tCLYAtPvKRRDJjAPqhpCb0t6U2j7/xqAuLEebW2kiw==}
     dependencies:
       undici-types: 5.26.5
 
@@ -653,7 +653,7 @@ packages:
     resolution: {integrity: sha512-E6OCaRmAe4WDmWNsL/9RMqdkkzDCY1etutkflWk4c+AcjDU07Pcz1fQwTX0TQz+Pxqn9i4L1TU3UFpjnrcDgxA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
       xmlbuilder: 15.1.1
     dev: true
     optional: true
@@ -679,7 +679,7 @@ packages:
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
     dependencies:
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
     dev: false
 
   /@types/scheduler@0.16.8:
@@ -696,7 +696,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
     dev: false
     optional: true
 
