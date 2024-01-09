@@ -1,5 +1,5 @@
-import SendButton from './SendButton';
 import InvokeButton from './InvokeButton';
+import SendButton from './SendButton';
 import styles from './page.module.css';
 
 export default function Home() {

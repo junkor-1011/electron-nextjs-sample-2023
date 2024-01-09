@@ -10,15 +10,15 @@ import {
   exampleChannel2,
   exampleChannel3,
 } from './lib/channels';
-import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
+import { protocolInfo, registerProtocol } from './lib/custom-protocol';
 import { registerExampleEvent } from './lib/events';
-import { registerProtocol, protocolInfo } from './lib/custom-protocol';
+import { invokeExampleHandler, sendExampleHandler } from './lib/handler';
 import { setMenu } from './lib/menu';
 
 // get app version
 import {
-  version as applicationVersion,
   name as applicationName,
+  version as applicationVersion,
 } from '../package.json';
 
 // about panel
