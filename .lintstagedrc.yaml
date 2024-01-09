@@ -1,0 +1,4 @@
+'*.{ts,tsx,mts,cts}':
+  - biome check --apply
+'*.{js,jsx,mjs,cjs,json,jsonc}':
+  - biome format --write
