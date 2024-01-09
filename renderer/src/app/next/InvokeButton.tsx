@@ -14,6 +14,7 @@ export default function InvokeButton() {
         });
         alert(res);
       }}
+      type="submit"
     >
       <h2>ipc invoke</h2>
     </button>

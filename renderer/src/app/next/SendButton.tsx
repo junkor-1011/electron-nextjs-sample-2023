@@ -11,6 +11,7 @@ export default function SendButton() {
         e.preventDefault();
         window.electronAPI.sendExample('message from renderer: send');
       }}
+      type="submit"
     >
       <h2>ipc send</h2>
     </button>

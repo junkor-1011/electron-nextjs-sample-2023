@@ -1,7 +1,7 @@
 import { statSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { app, net, protocol, session } from 'electron';
+import { net, app, protocol, session } from 'electron';
 
 export const protocolInfo = {
   scheme: 'mpa',
@@ -75,9 +75,8 @@ export const registerProtocol = ({
 
       if (fileExtension === '.asar') {
         return net.fetch(conv2FilePath(baseIndexPath));
-      } else {
-        return net.fetch(conv2FilePath(resolvedPathname));
       }
+      return net.fetch(conv2FilePath(resolvedPathname));
     });
   });
 };

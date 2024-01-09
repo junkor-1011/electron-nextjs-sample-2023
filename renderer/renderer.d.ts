@@ -1,11 +1,11 @@
 import type {
-  SendExampleHandler,
-  InvokeExampleHandler,
-} from '@main/lib/handler';
-import type {
   AddListenerExample,
   RemoveListenerExample,
 } from '@main/lib/events';
+import type {
+  InvokeExampleHandler,
+  SendExampleHandler,
+} from '@main/lib/handler';
 
 export interface IElectronAPI {
   readonly sendExample: SendExampleHandler;
