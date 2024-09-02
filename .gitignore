@@ -8,6 +8,9 @@ temp
 *.tgz
 *.zip
 
+# for turborepo
+.turbo
+
 # for electron
 main/*.js*
 
